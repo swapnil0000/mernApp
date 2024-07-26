@@ -13,7 +13,7 @@ app.use((req, res, next)=>{
     console.log("Path:",req.path,res.header)
     next();
 })
-
+// When a client sends data to the server in the form of JSON (for example, using a POST request with a JSON body), express.json() parses this JSON and makes it available under req.body.
 app.use(express.json());
 
 
