@@ -16,6 +16,14 @@ export const createWorkouts=createAsyncThunk('/workouts/createWorkouts',async (w
     const data = await response.json();
     return data;
 })
+
+export const deleteWorkouts=createAsyncThunk('/workouts/deleteWorkouts',async (id)=>{
+    const response = await fetch('/api/workouts/'+id, {
+        method: 'DELETE',
+    });
+    const data = await response.json();
+    return id;
+})
 const workoutSlice=createSlice({
     name:"workout",
     initialState:{
@@ -40,6 +48,9 @@ const workoutSlice=createSlice({
         .addCase(createWorkouts.fulfilled,(state,action)=>{
             state.items.push(action.payload)
             state.status="new workout"
+        })
+        .addCase(deleteWorkouts.fulfilled,(state,action)=>{
+            state.items = state.items.filter(item => item._id !== action.payload);
         })
     }
 })

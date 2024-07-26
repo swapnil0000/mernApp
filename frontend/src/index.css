@@ -39,6 +39,9 @@ header a {
   gap: 100px;
 }
 .workout-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   background: #fff;
   border-radius: 4px;
   margin: 20px auto;

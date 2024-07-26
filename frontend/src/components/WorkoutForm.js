@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { createWorkouts } from '../workoutSlice/workoutSlice';
 
 const WorkoutForm = () => {
+    const dispatch=useDispatch();
     const [title, setTitle] = useState('');
     const [load, setLoad] = useState('');
     const [error, setError] = useState(null)
@@ -8,30 +11,21 @@ const WorkoutForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(title, load, reps);
         const workout = { title, load, reps };
 
-        const response = await fetch('/api/workouts/', {
-            method: 'POST',
-            body: JSON.stringify(workout),
-            headers: {
-                'Content-Type': 'application/json'
+        try{
+            const resultAction=await dispatch(createWorkouts(workout));
+            if (createWorkouts.fulfilled.match(resultAction)) {
+                setTitle('');
+                setLoad('');
+                setReps('');
+                setError(null);
+            } else {
+                setError(resultAction.error.message);
             }
-        })
-        const json = await response.json();
-        console.log("JSON",json)
-        if (!response.ok) {
-            setError(json.error)
+        }catch (err) {
+            setError(err.message);
         }
-        if (response.ok) {
-            setError(null)
-            setTitle('')
-            setLoad('')
-            setReps('')
-            console.log('new workout added:', json)
-        }
-
-
     }
     return (
         <form onSubmit={handleSubmit}>
@@ -39,15 +33,15 @@ const WorkoutForm = () => {
            
                 <div className='inputBox'>
                     <label>Add a Title:</label>
-                    <input value={title} onChange={(e) => setTitle(e.target.value)} type='text' className='input' placeholder='add a title' />
+                    <input required={true} value={title} onChange={(e) => setTitle(e.target.value)} type='text' className='input' placeholder='add a title' />
                 </div>
                 <div className='inputBox'>
                     <label>Load(KG):</label>
-                    <input value={load} onChange={(e) => setLoad(e.target.value)} type='number' className='input' placeholder='add a load in KG' />
+                    <input required={true} value={load} onChange={(e) => setLoad(e.target.value)} type='number' className='input' placeholder='add a load in KG' />
                 </div>
                 <div className='inputBox'>
                     <label>Number of reps:</label>
-                    <input value={reps} onChange={(e) => setReps(e.target.value)} type='number' className='input' placeholder='add a no of reps' />
+                    <input required={true} value={reps} onChange={(e) => setReps(e.target.value)} type='number' className='input' placeholder='add a no of reps' />
                 </div>
                 <button>Add Workout</button>
                 {error && <div className="error">{error}</div>}
