@@ -66,3 +66,26 @@ header a {
   border-radius: 50%;
   color: #333;
 }
+
+.inputBox{
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+}
+
+.input{
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  background-color:#1aac83 ;
+}
+
+.btn{
+  padding: 10px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: large;
+}
