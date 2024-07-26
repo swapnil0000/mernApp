@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux"
 import { deleteWorkouts } from "../workoutSlice/workoutSlice";
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 const WorkoutDetails = ({ workout }) => {
 
@@ -14,8 +15,8 @@ const WorkoutDetails = ({ workout }) => {
         <h4>{workout.title}</h4>
         <p><strong>Load (kg): </strong>{workout.load}</p>
         <p><strong>Number of reps: </strong>{workout.reps}</p>
-        <p>{workout.createdAt}</p>
-      </div>
+        <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p>
+        </div>
 
       <div>
         <i  onClick={() => handleDelete(workout._id)}         style={{cursor:'pointer'}} class="fa fa-trash" aria-hidden="true"></i>
